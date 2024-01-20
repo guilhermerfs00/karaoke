@@ -11,28 +11,30 @@
         <h3>Últimos Resultados</h3>
         <ul id="lastResults"></ul>
     </div>
-    <div class="karaoke-container">
+    <div class="center-container">
+        <div class="karaoke-container">
         
-        <h1>Bem-vindo ao Karaokê do BETO</h1>
-        <input type="file" id="fileInput" accept="video/*">
-        <div class="video-wrapper">
-            <video id="videoPlayer" controls style="display:none;"></video>
-        </div>
-        <div id="loading" class="loading" style="display:none;">
-            <img src="D:/pati/img/img1.png" alt="Carregando..." />
-        </div>
-        <div id="result" style="display:none;">
-            <h2>Resultado: <span id="randomScore"></span>%</h2>
-            <div id="container">
-                <p id="message"></p>
+            <h1>Bem-vindo ao Karaokê do BETO</h1>
+            <input type="file" id="fileInput" accept="video/*">
+            <div class="video-wrapper">
+                <video id="videoPlayer" controls style="display:none;"></video>
             </div>
+            <div id="loading" class="loading" style="display:none;">
+                <img src="D:/pati/img/img1.png" alt="Carregando..." />
+            </div>
+            <div id="result" style="display:none;">
+                <h2>Resultado: <span id="randomScore"></span>%</h2>
+                <div id="message-container">
+                    <p id="message"></p>
+                </div>
+            </div>
+    
+            <div id="result" style="display:none;">
+                <p id="message"></p>
+    
+            </div>
+    
         </div>
-
-        <div id="result" style="display:none;">
-            <p id="message"></p>
-
-        </div>
-
     </div>
     <script src="script.js"></script>
 </body>

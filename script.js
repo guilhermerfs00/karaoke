@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingElement = document.getElementById('loading');
     const randomScoreElement = document.getElementById('randomScore');
     const messageElement = document.getElementById('message');
-    const resultsList = document.getElementById('lastResults'); // Adiciona um elemento para exibir os resultados
+    const resultsList = document.getElementById('lastResults');
 
-    // Carrega os resultados salvos quando a página é carregada
     loadSavedResults();
 
     fileInput.addEventListener('change', function(event) {
@@ -29,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const randomScore = Math.floor(Math.random() * 51) + 50;
             randomScoreElement.textContent = randomScore;
+            
             updateMessage(randomScore);
             addAndSaveResult(randomScore);
 
@@ -36,9 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setTimeout(function() {
                 resultElement.style.display = 'none';
+                videoPlayer.src = '';
+                videoPlayer.load();
+                fileInput.value = '';
                 fileInput.disabled = false;
-                // Não recarrega a página para manter os resultados visíveis
-            }, 10000);
+            }, 4000);
         }, 4000);
     });
 
@@ -47,36 +49,39 @@ document.addEventListener('DOMContentLoaded', function() {
         if (score <= 70) {
             message = 'Você pode fazer melhor do que isso';
         } else if (score <= 80) {
-            message = 'Foi bom mas pode melhorar, tente novamente !';
+            message = 'Bom trabalho, mas ainda pode melhorar!';
         } else if (score <= 90) {
-            message = 'Muito bom, você é quase um profissional';
+            message = 'Ótimo! Você está quase lá!';
         } else {
-            message = 'EXCELENTEEEEE !';
+            message = 'Incrível! Você é um superstar do karaokê!';
         }
         messageElement.textContent = message;
     }
 
     function addAndSaveResult(score) {
+        const gradientStyle = `linear-gradient(to right, #27ae60 ${score}%, #fff ${score}%)`;
+        addResultToList(score, gradientStyle);
+        saveResults({ score, gradientStyle });
+    }
+
+    function addResultToList(score, style) {
         const newItem = document.createElement('li');
         newItem.textContent = score + '%';
+        newItem.style.background = style;
         resultsList.insertBefore(newItem, resultsList.firstChild);
-
-        saveResults(score);
     }
 
     function loadSavedResults() {
         const savedResults = JSON.parse(localStorage.getItem('karaokeResults')) || [];
-        savedResults.reverse().forEach(score => {
-            const newItem = document.createElement('li');
-            newItem.textContent = score + '%';
-            resultsList.appendChild(newItem);
+        savedResults.reverse().forEach(result => {
+            addResultToList(result.score, result.gradientStyle);
         });
     }
-
-    function saveResults(newScore) {
+    
+    function saveResults(result) {
         let savedResults = JSON.parse(localStorage.getItem('karaokeResults')) || [];
-        savedResults.unshift(newScore);
-        savedResults = savedResults.slice(0, 10);
+        savedResults.unshift(result);
+        savedResults = savedResults.slice(0, 100); // Limit to 100 results for performance
         localStorage.setItem('karaokeResults', JSON.stringify(savedResults));
     }
 });
